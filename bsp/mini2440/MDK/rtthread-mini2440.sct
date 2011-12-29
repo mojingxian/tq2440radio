@@ -1,0 +1,18 @@
+LR_IROM1 0x30000000  {
+  ER_IROM1 0x30000000   {  ; load address = execution address
+   *.o (RESET, +First)
+   *(InRoot$$Sections)
+   .ANY (+RO)
+  }
+
+  RW_IRAM1 0x30200000 {  ; RW data
+   .ANY (+RW)
+  }
+
+  ER_ZI +0 { ; ZI data
+   .ANY (+ZI)
+  }
+
+  ER_MMU 0x33FF0000 EMPTY 0x00100000 {
+  }
+}
