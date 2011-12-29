@@ -152,23 +152,6 @@
           <Name>-UV2077N9E -O40 -S0 -C0 -N00("ARM920T Core") -D00(0032409D) -L00(4) -FO7 -FD40000000 -FC1000 -FN1 -FF0S3C2440_NAND_SP -FS030000000 -FL07FFC000)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>164</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>805309820</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>startup.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-      </Breakpoint>
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
@@ -202,7 +185,7 @@
 
   <Group>
     <GroupName>startup</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <File>
@@ -211,10 +194,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>43</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>246</TopLine>
+      <CurrentLine>246</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\application.c</PathWithFileName>
       <FilenameWithoutPath>application.c</FilenameWithoutPath>
@@ -225,10 +208,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>34</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>192</TopLine>
+      <CurrentLine>202</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\board.c</PathWithFileName>
       <FilenameWithoutPath>board.c</FilenameWithoutPath>
@@ -239,10 +222,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>39</ColumnNumber>
+      <ColumnNumber>24</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>161</TopLine>
+      <CurrentLine>177</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\console.c</PathWithFileName>
       <FilenameWithoutPath>console.c</FilenameWithoutPath>
@@ -297,8 +280,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>161</TopLine>
-      <CurrentLine>164</CurrentLine>
+      <TopLine>159</TopLine>
+      <CurrentLine>162</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\startup.c</PathWithFileName>
       <FilenameWithoutPath>startup.c</FilenameWithoutPath>
@@ -346,8 +329,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>304</TopLine>
-      <CurrentLine>315</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\src\device.c</PathWithFileName>
       <FilenameWithoutPath>device.c</FilenameWithoutPath>
@@ -358,10 +341,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>36</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>140</TopLine>
-      <CurrentLine>153</CurrentLine>
+      <CurrentLine>145</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\src\idle.c</PathWithFileName>
       <FilenameWithoutPath>idle.c</FilenameWithoutPath>
@@ -402,8 +385,8 @@
       <Focus>0</Focus>
       <ColumnNumber>71</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1008</TopLine>
-      <CurrentLine>1019</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\src\kservice.c</PathWithFileName>
       <FilenameWithoutPath>kservice.c</FilenameWithoutPath>
@@ -619,8 +602,8 @@
       <Focus>0</Focus>
       <ColumnNumber>66</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>185</TopLine>
-      <CurrentLine>196</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\..\..\libcpu\arm\s3c24x0\serial.c</PathWithFileName>
       <FilenameWithoutPath>serial.c</FilenameWithoutPath>
@@ -907,111 +890,47 @@
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>49</FileNumber>
+      <FileNumber>0</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>356</TopLine>
-      <CurrentLine>366</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\LCD\LCD_TFT.c</PathWithFileName>
-      <FilenameWithoutPath>LCD_TFT.c</FilenameWithoutPath>
+      <PathWithFileName>..\LCD\rtt_logo24.c</PathWithFileName>
+      <FilenameWithoutPath>rtt_logo24.c</FilenameWithoutPath>
     </File>
     <File>
       <GroupNumber>5</GroupNumber>
-      <FileNumber>50</FileNumber>
+      <FileNumber>0</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>9603</TopLine>
-      <CurrentLine>9603</CurrentLine>
+      <TopLine>399</TopLine>
+      <CurrentLine>415</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\LCD\lcd_w35.c</PathWithFileName>
+      <FilenameWithoutPath>lcd_w35.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>5</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\LCD\rtt_log.c</PathWithFileName>
       <FilenameWithoutPath>rtt_log.c</FilenameWithoutPath>
     </File>
   </Group>
-
-  <AlienFiles>
-    <PathWithFilename>E:\eclipse\RT-Thread\bsp\mini2440\MDK\Ext_RAM.ini</PathWithFilename>
-    <TopLine>41</TopLine>
-    <CurrentLine>41</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>E:\eclipse\RT-Thread\bsp\mini2440\LCD\2440addr.h</PathWithFilename>
-    <TopLine>674</TopLine>
-    <CurrentLine>677</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
-    <PathWithFilename>E:\eclipse\RT-Thread\bsp\mini2440\MDK\rtthread-mini2440.sct</PathWithFilename>
-    <TopLine>1</TopLine>
-    <CurrentLine>12</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
 
   <AlienFiles>
     <PathWithFilename>E:\eclipse\RT-Thread\src\kservice.h</PathWithFilename>
@@ -1039,18 +958,56 @@
     </WindowPosition>
   </AlienFiles>
 
+  <AlienFiles>
+    <PathWithFilename>E:\eclipse\RT-Thread\bsp\mini2440\MDK\rtthread-mini2440.sct</PathWithFilename>
+    <TopLine>1</TopLine>
+    <CurrentLine>14</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
   <MDIGroups>
     <Orientation>1</Orientation>
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>1</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Documents>
         <Doc>
           <Name>..\..\..\src\idle.c</Name>
-          <ColumnNumber>36</ColumnNumber>
+          <ColumnNumber>0</ColumnNumber>
           <TopLine>140</TopLine>
-          <CurrentLine>153</CurrentLine>
+          <CurrentLine>145</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\LCD\lcd_w35.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>399</TopLine>
+          <CurrentLine>415</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\startup.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>159</TopLine>
+          <CurrentLine>162</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\..\..\src\kservice.h</Name>
@@ -1059,58 +1016,28 @@
           <CurrentLine>88</CurrentLine>
         </Doc>
         <Doc>
-          <Name>..\..\..\libcpu\arm\s3c24x0\start_rvds.S</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>57</TopLine>
-          <CurrentLine>59</CurrentLine>
+          <Name>..\console.c</Name>
+          <ColumnNumber>24</ColumnNumber>
+          <TopLine>161</TopLine>
+          <CurrentLine>177</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\application.c</Name>
+          <ColumnNumber>43</ColumnNumber>
+          <TopLine>246</TopLine>
+          <CurrentLine>246</CurrentLine>
         </Doc>
         <Doc>
           <Name>E:\eclipse\RT-Thread\bsp\mini2440\MDK\rtthread-mini2440.sct</Name>
-          <ColumnNumber>37</ColumnNumber>
+          <ColumnNumber>51</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>12</CurrentLine>
+          <CurrentLine>14</CurrentLine>
         </Doc>
         <Doc>
-          <Name>..\LCD\LCD_TFT.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>356</TopLine>
-          <CurrentLine>366</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\LCD\2440slib.s</Name>
-          <ColumnNumber>42</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\LCD\2440addr.h</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>674</TopLine>
-          <CurrentLine>677</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\LCD\2440lib.c</Name>
-          <ColumnNumber>39</ColumnNumber>
-          <TopLine>18</TopLine>
-          <CurrentLine>21</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\startup.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>161</TopLine>
-          <CurrentLine>164</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>E:\eclipse\RT-Thread\bsp\mini2440\MDK\Ext_RAM.ini</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>41</TopLine>
-          <CurrentLine>41</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\LCD\rtt_log.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>9603</TopLine>
-          <CurrentLine>9603</CurrentLine>
+          <Name>..\board.c</Name>
+          <ColumnNumber>34</ColumnNumber>
+          <TopLine>192</TopLine>
+          <CurrentLine>202</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>
