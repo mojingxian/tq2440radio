@@ -12,6 +12,7 @@
 // Includes
 #include "lcd.h"
 #include "s3c24x0.h"
+#include "rtdef.h"
 
 // Private typedefs
 // Private defines
@@ -66,10 +67,14 @@ typedef struct
 // Private variables
 // Global  variables
 volatile color_bit LCD_BUFFER[SCR_YSIZE_TFT][SCR_XSIZE_TFT];
+static struct rt_device_graphic_info _lcd_info;
+struct rt_device _lcd_device;
 
 // Private functions
+void lcd_power_enable(int invpwren, int pwren);
+void lcd_envid_ctrl(int onoff);
 
-void lcd_init(void)
+rt_err_t lcd_init(rt_device_t dev)
 {
     GPCUP  = 0x00000000; //使能上拉电阻
     GPCCON = 0xAAAA02A9; //使能相关GPC引脚的LCD控制功能
@@ -88,6 +93,11 @@ void lcd_init(void)
     LCDINTMSK|= (3);   // MASK LCD Sub Interrupt
     LPCSEL   &= (~7);  // Disable LPC3480
     TPAL      = 0;     // Disable Temp Palette
+
+    lcd_power_enable(0, 1);
+    lcd_envid_ctrl(1);     //turn on vedio
+
+    return RT_EOK;
 }
 
 /*!
@@ -400,7 +410,7 @@ void lcd_paint_bmp(int x0, int y0, int h, int l, unsigned char *bmp)
 
 void lcd_tft_init(void)
 {
-    lcd_init();
+    //lcd_init();
     lcd_power_enable(0, 1);
     lcd_envid_ctrl(1);     //turn on vedio
 
@@ -417,4 +427,47 @@ void lcd_tft_init(void)
     lcd_draw_line(LCD_BLANK, LCD_BLANK, (LCD_XSIZE_TFT - LCD_BLANK), (LCD_YSIZE_TFT-LCD_BLANK), 0x0000 );
     lcd_draw_line(LCD_BLANK, (LCD_YSIZE_TFT - LCD_BLANK), (LCD_XSIZE_TFT-LCD_BLANK), LCD_BLANK, 0x0000 );
     lcd_draw_line((LCD_XSIZE_TFT / 2), (LCD_BLANK*2 + V_BLACK*0), (LCD_XSIZE_TFT/2), (LCD_BLANK*2 + V_BLACK*6), 0x0000);
+}
+
+static rt_err_t rt_lcd_control (rt_device_t dev, rt_uint8_t cmd, void *args)
+{
+    switch (cmd)
+    {
+    case RTGRAPHIC_CTRL_RECT_UPDATE:
+        break;
+    case RTGRAPHIC_CTRL_POWERON:
+        break;
+    case RTGRAPHIC_CTRL_POWEROFF:
+        break;
+    case RTGRAPHIC_CTRL_GET_INFO:
+        rt_memcpy(args, &_lcd_info, sizeof(_lcd_info));
+        break;
+    case RTGRAPHIC_CTRL_SET_MODE:
+        break;
+    }
+
+    return RT_EOK;
+}
+
+void rt_hw_lcd_init(void)
+{
+    rt_device_t lcd = rt_malloc(sizeof(struct rt_device));
+    if (lcd == RT_NULL) return; /* no memory yet */
+
+    _lcd_info.bits_per_pixel = 32;
+    _lcd_info.pixel_format = RTGRAPHIC_PIXEL_FORMAT_RGB888;
+    _lcd_info.framebuffer = (void*)LCD_BUFFER;
+    _lcd_info.width = LCD_XSIZE_TFT;
+    _lcd_info.height = LCD_YSIZE_TFT;
+
+    /* init device structure */
+    lcd->type = RT_Device_Class_Unknown;
+    lcd->init = lcd_init;
+    lcd->open = RT_NULL;
+    lcd->close = RT_NULL;
+    lcd->control = rt_lcd_control;
+    lcd->user_data = (void*)&_lcd_info;
+
+    /* register lcd device to RT-Thread */
+    rt_device_register(lcd, "lcd", RT_DEVICE_FLAG_RDWR);
 }

@@ -207,7 +207,7 @@ void rt_hw_board_init()
 	rt_hw_timer_init();
 
 	//Lcd_TFT_Init();
-	lcd_tft_init();
+	//lcd_tft_init();
 }
 
 /*@}*/

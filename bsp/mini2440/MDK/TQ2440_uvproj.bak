@@ -647,9 +647,14 @@
               <FilePath>..\LCD\2440slib.s</FilePath>
             </File>
             <File>
-              <FileName>LCD_TFT.c</FileName>
+              <FileName>rtt_logo24.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\LCD\LCD_TFT.c</FilePath>
+              <FilePath>..\LCD\rtt_logo24.c</FilePath>
+            </File>
+            <File>
+              <FileName>lcd_w35.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\LCD\lcd_w35.c</FilePath>
             </File>
             <File>
               <FileName>rtt_log.c</FileName>

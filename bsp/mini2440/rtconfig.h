@@ -197,7 +197,7 @@
 
 /* SECTION: RTGUI support */
 /* using RTGUI support */
-//#define RT_USING_RTGUI
+#define RT_USING_RTGUI
 
 /* name length of RTGUI object */
 #define RTGUI_NAME_MAX		16
@@ -218,10 +218,10 @@
 /* use mouse cursor */
 /* #define RTGUI_USING_MOUSE_CURSOR */
 /* RTGUI image options */
-#define RTGUI_IMAGE_XPM
-#define RTGUI_IMAGE_JPEG
-#define RTGUI_IMAGE_PNG
-#define RTGUI_IMAGE_BMP
+//#define RTGUI_IMAGE_XPM
+//#define RTGUI_IMAGE_JPEG
+//#define RTGUI_IMAGE_PNG
+//#define RTGUI_IMAGE_BMP
 
 /* SECTION: FTK support */
 /* using FTK support */

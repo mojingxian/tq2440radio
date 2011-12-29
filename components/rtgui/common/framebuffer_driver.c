@@ -102,6 +102,55 @@ static void _rgb565p_draw_vline(rtgui_color_t *c, int x , int y1, int y2)
 	}
 }
 
+static void _rgb888_set_pixel(rtgui_color_t *c, int x, int y)
+{
+    *GET_PIXEL(rtgui_graphic_get_device(), x, y, rt_uint16_t) = rtgui_color_to_888(*c);
+}
+
+static void _rgb888_get_pixel(rtgui_color_t *c, int x, int y)
+{
+    rt_uint32_t pixel;
+
+    pixel = *GET_PIXEL(rtgui_graphic_get_device(), x, y, rt_uint32_t);
+
+    /* get pixel from color */
+    *c = rtgui_color_from_888(pixel);
+}
+
+static void _rgb888_draw_hline(rtgui_color_t *c, int x1, int x2, int y)
+{
+    rt_ubase_t index;
+    rt_uint32_t pixel;
+    rt_uint32_t *pixel_ptr;
+
+    /* get pixel from color */
+    pixel = rtgui_color_to_888(*c);
+
+    /* get pixel pointer in framebuffer */
+    pixel_ptr = GET_PIXEL(rtgui_graphic_get_device(), x1, y, rt_uint32_t);
+
+    for (index = x1; index < x2; index ++)
+    {
+        *pixel_ptr = pixel;
+        pixel_ptr ++;
+    }
+}
+
+static void _rgb888_draw_vline(rtgui_color_t *c, int x , int y1, int y2)
+{
+    rt_uint8_t *dst;
+    rt_uint32_t pixel;
+    rt_ubase_t index;
+
+    pixel = rtgui_color_to_888(*c);
+    dst = GET_PIXEL(rtgui_graphic_get_device(), x, y1, rt_uint8_t);
+    for (index = y1; index < y2; index ++)
+    {
+        *(rt_uint16_t*)dst = pixel;
+        dst += rtgui_graphic_get_device()->pitch;
+    }
+}
+
 /* draw raw hline */
 static void framebuffer_draw_raw_hline(rt_uint8_t *pixels, int x1, int x2, int y)
 {
@@ -127,6 +176,15 @@ const struct rtgui_graphic_driver_ops _framebuffer_rgb565p_ops =
 	_rgb565p_draw_hline,
 	_rgb565p_draw_vline,
 	framebuffer_draw_raw_hline,
+};
+
+const struct rtgui_graphic_driver_ops _framebuffer_rgb888_ops =
+{
+    _rgb888_set_pixel,
+    _rgb888_get_pixel,
+    _rgb888_draw_hline,
+    _rgb888_draw_vline,
+    framebuffer_draw_raw_hline,
 };
 
 #define FRAMEBUFFER	(rtgui_graphic_get_device()->framebuffer)
@@ -218,6 +276,8 @@ const struct rtgui_graphic_driver_ops *rtgui_framebuffer_get_ops(int pixel_forma
 		return &_framebuffer_rgb565_ops;
 	case RTGRAPHIC_PIXEL_FORMAT_RGB565P:
 		return &_framebuffer_rgb565p_ops;
+	case RTGRAPHIC_PIXEL_FORMAT_RGB888:
+	    return &_framebuffer_rgb888_ops;
 	}
 
 	return RT_NULL;

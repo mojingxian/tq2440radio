@@ -5,7 +5,7 @@ LR_IROM1 0x30000000  {
    .ANY (+RO)
   }
 
-  RW_IRAM1 0x30200000 {  ; RW data
+  RW_IRAM1 0x31000000 {  ; RW data
    .ANY (+RW)
   }
 
