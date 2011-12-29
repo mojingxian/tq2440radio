@@ -17,10 +17,10 @@
 // Private defines
 typedef struct
 {
-    unsigned char red;
-    unsigned char blank;
     unsigned char blue;
     unsigned char green;
+    unsigned char red;
+    unsigned char blank;
 }color_bit;
 
 // Private enums
