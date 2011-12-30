@@ -104,7 +104,7 @@ static void _rgb565p_draw_vline(rtgui_color_t *c, int x , int y1, int y2)
 
 static void _rgb888_set_pixel(rtgui_color_t *c, int x, int y)
 {
-    *GET_PIXEL(rtgui_graphic_get_device(), x, y, rt_uint16_t) = rtgui_color_to_888(*c);
+    *GET_PIXEL(rtgui_graphic_get_device(), x, y, rt_uint32_t) = rtgui_color_to_888(*c);
 }
 
 static void _rgb888_get_pixel(rtgui_color_t *c, int x, int y)
@@ -146,7 +146,7 @@ static void _rgb888_draw_vline(rtgui_color_t *c, int x , int y1, int y2)
     dst = GET_PIXEL(rtgui_graphic_get_device(), x, y1, rt_uint8_t);
     for (index = y1; index < y2; index ++)
     {
-        *(rt_uint16_t*)dst = pixel;
+        *(rt_uint32_t*)dst = pixel;
         dst += rtgui_graphic_get_device()->pitch;
     }
 }

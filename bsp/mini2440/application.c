@@ -259,14 +259,23 @@ void rt_led_thread_entry(void* parameter)
 	while(1)
 	{
 		/* light on leds for one second */
-		rt_hw_led_on(LED2|LED3);
-		rt_hw_led_off(LED1|LED4);
-		rt_thread_delay(1000);
+		rt_hw_led_on(LED1);
+		rt_hw_led_off(LED2|LED3|LED4);
+		rt_thread_delay(200);
 
-		/* light off leds for one second */
-		rt_hw_led_off(LED2|LED3);
-		rt_hw_led_on(LED1|LED4);
-		rt_thread_delay(1000);
+        rt_hw_led_on(LED1 | LED2);
+        rt_hw_led_off(LED3|LED4);
+        rt_thread_delay(200);
+
+        rt_hw_led_on(LED1|LED2|LED3);
+        rt_hw_led_off(LED4);
+        rt_thread_delay(200);
+
+        rt_hw_led_on(LED1|LED2|LED3|LED4);
+        rt_thread_delay(200);
+
+        rt_hw_led_off(LED1|LED2|LED3|LED4);
+        rt_thread_delay(200);
 	}
 }
 
