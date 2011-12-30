@@ -139,13 +139,8 @@ void rt_init_thread_entry(void* parameter)
 
 #ifdef RT_USING_RTGUI
 	{
-	    extern rt_err_t rtgui_graphic_set_device(rt_device_t device);
-        extern void lcd_paint_bmp(int x0, int y0, int h, int l, unsigned char *bmp);
-        extern rt_err_t lcd_init(rt_device_t dev);
-        extern unsigned char gImage_rtt_logo24[230400];
-
 		rt_device_t lcd;
-#if 1
+
 		/* init lcd */
 		rt_hw_lcd_init();
 			
@@ -163,10 +158,7 @@ void rt_init_thread_entry(void* parameter)
 
 		/* set lcd device as rtgui graphic driver */		
 		rtgui_graphic_set_device(lcd);
-#endif
-		//lcd_init(lcd);
 
-		lcd_paint_bmp(0, 0, 320, 240, gImage_rtt_logo24);
 		/* startup rtgui */
 		rtgui_startup();
 	}
