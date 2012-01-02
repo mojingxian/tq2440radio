@@ -148,7 +148,7 @@ void rt_init_thread_entry(void* parameter)
 		rtgui_touch_hw_init();
 
 		/* init keypad */
-		rt_hw_key_init();
+		//rt_hw_key_init();
 		
 		/* re-init device driver */
 		rt_device_init_all();
@@ -209,53 +209,9 @@ void rt_init_thread_entry(void* parameter)
 	}
 #endif
 }
-#if 0
-void rt_gui_thread_entry(void* parameter)
-{
-    rt_device_t lcd;
-    rtgui_rect_t rect;
-
-    //radio_rtgui_init();
-    rt_hw_lcd_init();
-
-    lcd = rt_device_find("lcd");
-    if (lcd != RT_NULL)
-    {
-        rt_device_init(lcd);
-        rtgui_graphic_set_device(lcd);
-
-        /* init RT-Thread/GUI server */
-        rtgui_system_server_init();
-
-        /* register dock panel */
-        rect.x1 = 0;
-        rect.y1 = 0;
-        rect.x2 = 240;
-        rect.y2 = 25;
-        rtgui_panel_register("info", &rect);
-        rtgui_panel_set_nofocused("info");
-
-        /* register main panel */
-        rect.x1 = 0;
-        rect.y1 = 25;
-        rect.x2 = 240;
-        rect.y2 = 320;
-        rtgui_panel_register("main", &rect);
-        rtgui_panel_set_default_focused("main");
-
-        //info_init();
-        //player_init();
-
-    }
-}
-#endif
-
 
 void rt_led_thread_entry(void* parameter)
 {
-    //lcd_paint_bmp(0, 0, 320, 240, gImage_rtt_logo24);
-    //Lcd_TFT_Test();
-    //Lcd_TFT_Init();
 	while(1)
 	{
 		/* light on leds for one second */
@@ -283,7 +239,7 @@ int rt_application_init()
 {
 	rt_thread_t init_thread;
 	rt_thread_t led_thread;
-	//rt_thread_t gui_thread;
+
 #if (RT_THREAD_PRIORITY_MAX == 32)
 	init_thread = rt_thread_create("init",
 								rt_init_thread_entry, RT_NULL,
@@ -300,10 +256,6 @@ int rt_application_init()
 	led_thread = rt_thread_create("led",
 								rt_led_thread_entry, RT_NULL,
 								512, 200, 20);
-
-//    led_thread = rt_thread_create("gui",
-//                                rt_gui_thread_entry, RT_NULL,
-//                                1024, 200, 20);
 #endif
 
 	if (init_thread != RT_NULL)
@@ -311,9 +263,6 @@ int rt_application_init()
 
 	if(led_thread != RT_NULL)
 		rt_thread_startup(led_thread);
-
-//    if(gui_thread != RT_NULL)
-//        rt_thread_startup(gui_thread);
 
 	return 0;
 }

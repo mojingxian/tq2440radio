@@ -117,7 +117,7 @@ void workbench_init()
 	{
 		rt_thread_t tid;
 
-		tid = rt_thread_create("wb",
+		tid = rt_thread_create("works",
 			workbench_entry, RT_NULL,
 			2048 * 2, 25, 10);
 

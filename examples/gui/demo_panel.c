@@ -11,17 +11,17 @@ void panel_init(void)
     rtgui_rect_t rect;
 
     /* register dock panel */
-    rect.x1 = 0;
-    rect.y1 = 0;
-    rect.x2 = 320;
-    rect.y2 = 0;
-    rtgui_panel_register("info", &rect);
+//    rect.x1 = 0;
+//    rect.y1 = 0;
+//    rect.x2 = 320;
+//    rect.y2 = 0;
+//    rtgui_panel_register("info", &rect);
 
     /* register main panel */
-    rect.x1 = 0;
-    rect.y1 = 0;
-    rect.x2 = 320;
-    rect.y2 = 240;
+    rect.x1 = 20;
+    rect.y1 = 20;
+    rect.x2 = 300;
+    rect.y2 = 220;
     rtgui_panel_register("main", &rect);
     rtgui_panel_set_default_focused("main");
 }

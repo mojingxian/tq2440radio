@@ -182,7 +182,6 @@ static  void rt_hw_timer_init()
 	TCON = TCON & (~(0x0f<<20)) | (0x05<<20);
  }
 
-extern void lcd_tft_init(void);
 /**
  * This function will init s3ceb2410 board
  */
@@ -205,9 +204,6 @@ void rt_hw_board_init()
 
 	/* initialize timer4 */
 	rt_hw_timer_init();
-
-	//Lcd_TFT_Init();
-	//lcd_tft_init();
 }
 
 /*@}*/

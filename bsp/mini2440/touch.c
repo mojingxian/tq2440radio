@@ -150,7 +150,7 @@ static void report_touch_input(int updown)
 
 		emouse.x = touch->x;
 		emouse.y = touch->y;
-		rt_kprintf("(%d,%d)\r\n",touch->x,touch->y);
+		//rt_kprintf("(%d,%d)\r\n",touch->x,touch->y);
 		if(touch->first_down_report == RT_TRUE)
 		{
 			emouse.parent.type = RTGUI_EVENT_MOUSE_BUTTON;
