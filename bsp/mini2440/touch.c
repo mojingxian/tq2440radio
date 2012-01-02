@@ -66,8 +66,8 @@
 #define AUTOPST	     (S3C2410_ADCTSC_YM_SEN | S3C2410_ADCTSC_YP_SEN | S3C2410_ADCTSC_XP_SEN | \
 		     S3C2410_ADCTSC_AUTO_PST | S3C2410_ADCTSC_XY_PST(0))
 
-#define X_MIN		74
-#define X_MAX		934
+#define X_MIN		934//74
+#define X_MAX		74//934
 #define Y_MIN		920
 #define Y_MAX		89
 
@@ -284,8 +284,8 @@ static void s3c2410_adc_stylus_action(void)
 	rt_uint32_t data0;
 	rt_uint32_t data1;
 
-	data0 = ADCDAT0;
-	data1 = ADCDAT1;
+	data0 = ADCDAT1;
+	data1 = ADCDAT0;
 	
 	ts.xp += data0 & S3C2410_ADCDAT0_XPDATA_MASK;
 	ts.yp += data1 & S3C2410_ADCDAT1_YPDATA_MASK;
