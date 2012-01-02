@@ -16,8 +16,6 @@
 #define RT_CONSOLE_FOREPIXEL	(0x001f)
 
 extern struct serial_device uart0;
-extern struct serial_device uart1;
-extern struct serial_device uart2;
 
 struct rt_console
 {

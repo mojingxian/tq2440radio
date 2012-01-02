@@ -150,7 +150,6 @@ static void report_touch_input(int updown)
 
 		emouse.x = touch->x;
 		emouse.y = touch->y;
-		//rt_kprintf("(%d,%d)\r\n",touch->x,touch->y);
 		if(touch->first_down_report == RT_TRUE)
 		{
 			emouse.parent.type = RTGUI_EVENT_MOUSE_BUTTON;
@@ -258,8 +257,8 @@ static void touch_timer_fire(void* parameter)
   	rt_uint32_t data1;
 	int updown;
 
-  	data0 = ADCDAT0;
-  	data1 = ADCDAT1;
+  	data0 = ADCDAT1;
+  	data1 = ADCDAT0;
 
  	updown = (!(data0 & S3C2410_ADCDAT0_UPDOWN)) && (!(data1 & S3C2410_ADCDAT0_UPDOWN));
 

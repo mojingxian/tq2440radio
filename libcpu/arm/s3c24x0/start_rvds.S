@@ -46,17 +46,7 @@ Mode_SYS        EQU     0x1F
 I_Bit           EQU     0x80            ; when I bit is set, IRQ is disabled
 F_Bit           EQU     0x40            ; when F bit is set, FIQ is disabled
 
-;=================
-; INTERRUPT
-;=================
-SRCPND   	EQU  0x4a000000    ;Interrupt request status
-INTMOD   	EQU  0x4a000004    ;Interrupt mode control
-INTMSK   	EQU  0x4a000008    ;Interrupt mask control
-PRIORITY 	EQU  0x4a00000c    ;IRQ priority control           <-- May 06, 2002 SOP
-INTPND   	EQU  0x4a000010    ;Interrupt request status
-INTOFFSET	EQU  0x4a000014    ;Interruot request source offset
-SUSSRCPND	EQU  0x4a000018    ;Sub source pending
-INTSUBMSK	EQU  0x4a00001c    ;Interrupt sub mask
+
 ;----------------------- Stack and Heap Definitions ----------------------------
 
 ;// <h> Stack Configuration (Stack Sizes in Bytes)
@@ -124,7 +114,7 @@ WTCNT_OFS       EQU     0x08            ; Watchdog Timer Count Register   Offset
 ;//   </h>
 ;// </e> Watchdog Timer Setup
 WT_SETUP        EQU     1
-WTCON_Val       EQU     0x00000039
+WTCON_Val       EQU     0x00000000
 WTDAT_Val       EQU     0x00008000
 
 
@@ -220,13 +210,13 @@ CAMDIVN_OFS     EQU     0x18            ; Camera Clock Divider Register  Offset
 ;//       <i> Divider is used only if CAMCLK_SEL = 1
 ;//   </h>
 ;// </e> Clock Setup
-CLOCK_SETUP     EQU     1
+CLOCK_SETUP     EQU     0
 LOCKTIME_Val    EQU     0x0FFF0FFF
-MPLLCON_Val     EQU     0x0005C041
-UPLLCON_Val     EQU     0x00038022
+MPLLCON_Val     EQU     0x00043011
+UPLLCON_Val     EQU     0x00038021
 CLKCON_Val      EQU     0x001FFFF0
 CLKSLOW_Val     EQU     0x00000004
-CLKDIVN_Val     EQU     0x00000005
+CLKDIVN_Val     EQU     0x0000000F
 CAMDIVN_Val     EQU     0x00000000
 
 
@@ -508,7 +498,7 @@ GPDAT_OFS       EQU     0x04            ; Data Register Offset
 GPUP_OFS        EQU     0x08            ; Pull-up Disable Register Offset
 
 ;// <e> I/O Setup
-GP_SETUP        EQU     0
+GP_SETUP        EQU     1
 
 ;//   <e> Port A Settings
 ;//     <h> Port A Control Register (GPACON)
@@ -920,18 +910,8 @@ Reset_Handler
                 STR     R2, [R0, #WTDAT_OFS]
                 STR     R1, [R0, #WTCON_OFS]
                 ENDIF
-				;Disable Watchdog
-				LDR     R0, = WT_BASE
-				LDR     R1, = 0x0
-				str     R1, [R0]
 
-				ldr	r0,=INTMSK
-				ldr	r1,=0xffffffff  ;all interrupt disable
-				str	r1,[r0]
-			
-				ldr	r0,=INTSUBMSK
-				ldr	r1,=0x7fff		;all sub interrupt disable
-				str	r1,[r0]
+
 ; Clock Setup ------------------------------------------------------------------
 
                 IF      (:LNOT:(:DEF:NO_CLOCK_SETUP)):LAND:(CLOCK_SETUP != 0)

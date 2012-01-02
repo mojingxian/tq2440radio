@@ -426,6 +426,11 @@
               <FileType>1</FileType>
               <FilePath>..\touch.c</FilePath>
             </File>
+            <File>
+              <FileName>lcd_w35.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lcd_w35.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -630,36 +635,6 @@
               <FileName>symbol.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\components\finsh\symbol.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>lcd</GroupName>
-          <Files>
-            <File>
-              <FileName>2440lib.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LCD\2440lib.c</FilePath>
-            </File>
-            <File>
-              <FileName>2440slib.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\LCD\2440slib.s</FilePath>
-            </File>
-            <File>
-              <FileName>rtt_logo24.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LCD\rtt_logo24.c</FilePath>
-            </File>
-            <File>
-              <FileName>lcd_w35.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LCD\lcd_w35.c</FilePath>
-            </File>
-            <File>
-              <FileName>rtt_log.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\LCD\rtt_log.c</FilePath>
             </File>
           </Files>
         </Group>

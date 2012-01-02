@@ -34,6 +34,7 @@
  * 2010-04-20     Bernard      move memcpy outside interrupt disable in mq
  * 2010-10-26     yi.qiu       add module support in rt_mp_delete and rt_mq_delete
  * 2010-11-10     Bernard      add IPC reset command implementation.
+ * 2011-12-18     Bernard      add more parameter checking in message queue
  */
 
 #include <rtthread.h>
@@ -252,7 +253,8 @@ rt_sem_t rt_sem_create(const char *name, rt_uint32_t value, rt_uint8_t flag)
 
 	/* allocate object */
 	sem = (rt_sem_t)rt_object_allocate(RT_Object_Class_Semaphore, name);
-	if (sem == RT_NULL) return sem;
+	if (sem == RT_NULL)
+		return sem;
 
 	/* init ipc object */
 	rt_ipc_object_init(&(sem->parent));
@@ -414,7 +416,6 @@ rt_err_t rt_sem_release(rt_sem_t sem)
 		("thread %s releases sem:%s, which value is: %d\n", rt_thread_self()->name,
 		((struct rt_object *)sem)->name, sem->value));
 
-
 	if (!rt_list_isempty(&sem->parent.suspend_thread))
 	{
 		/* resume the suspended thread */
@@ -427,7 +428,8 @@ rt_err_t rt_sem_release(rt_sem_t sem)
 	rt_hw_interrupt_enable(temp);
 
 	/* resume a thread, re-schedule */
-	if (need_schedule == RT_TRUE) rt_schedule();
+	if (need_schedule == RT_TRUE)
+		rt_schedule();
 
 	return RT_EOK;
 }
@@ -544,7 +546,8 @@ rt_mutex_t rt_mutex_create(const char *name, rt_uint8_t flag)
 
 	/* allocate object */
 	mutex = (rt_mutex_t)rt_object_allocate(RT_Object_Class_Mutex, name);
-	if (mutex == RT_NULL) return mutex;
+	if (mutex == RT_NULL)
+		return mutex;
 
 	/* init ipc object */
 	rt_ipc_object_init(&(mutex->parent));
@@ -626,8 +629,8 @@ rt_err_t rt_mutex_take(rt_mutex_t mutex, rt_int32_t time)
 	}
 	else
 	{
-		/* in initialization status, the value is 1. Therefore, if the
-		 * value is great than 1, which indicates the mutex is avaible.
+		/* The value of mutex is 1 in initial status. Therefore, if the
+		 * value is great than 0, it indicates the mutex is avaible.
 		 */
 		if (mutex->value > 0)
 		{
@@ -794,7 +797,8 @@ rt_err_t rt_mutex_release(rt_mutex_t mutex)
 	rt_hw_interrupt_enable(temp);
 
 	/* perform a schedule */
-	if (need_schedule == RT_TRUE) rt_schedule();
+	if (need_schedule == RT_TRUE)
+		rt_schedule();
 
 	return RT_EOK;
 }
@@ -882,7 +886,8 @@ rt_event_t rt_event_create(const char *name, rt_uint8_t flag)
 
 	/* allocate object */
 	event = (rt_event_t)rt_object_allocate(RT_Object_Class_Event, name);
-	if (event == RT_NULL) return event;
+	if (event == RT_NULL)
+		return event;
 
 	/* set parent */
 	event->parent.parent.flag = flag;
@@ -939,7 +944,8 @@ rt_err_t rt_event_send(rt_event_t event, rt_uint32_t set)
 
 	/* parameter check */
 	RT_ASSERT(event != RT_NULL);
-	if (set == 0) return -RT_ERROR;
+	if (set == 0)
+		return -RT_ERROR;
 
 	need_schedule = RT_FALSE;
 	RT_OBJECT_HOOK_CALL(rt_object_put_hook, (&(event->parent.parent)));
@@ -1031,7 +1037,8 @@ rt_err_t rt_event_recv(rt_event_t event, rt_uint32_t set, rt_uint8_t option, rt_
 
 	/* parameter check */
 	RT_ASSERT(event != RT_NULL);
-	if (set == 0) return -RT_ERROR;
+	if (set == 0)
+		return -RT_ERROR;
 
 	/* init status */
 	status = -RT_ERROR;
@@ -1048,11 +1055,13 @@ rt_err_t rt_event_recv(rt_event_t event, rt_uint32_t set, rt_uint8_t option, rt_
 	/* check event set */
 	if (option & RT_EVENT_FLAG_AND)
 	{
-		if ((event->set & set) == set) status = RT_EOK;
+		if ((event->set & set) == set)
+			status = RT_EOK;
 	}
 	else if (option & RT_EVENT_FLAG_OR)
 	{
-		if (event->set & set) status = RT_EOK;
+		if (event->set & set)
+			status = RT_EOK;
 	}
 
 	if (status == RT_EOK)
@@ -1061,7 +1070,8 @@ rt_err_t rt_event_recv(rt_event_t event, rt_uint32_t set, rt_uint8_t option, rt_
 		*recved = (event->set & set);
 
 		/* received event */
-		if (option & RT_EVENT_FLAG_CLEAR) event->set &= ~set;
+		if (option & RT_EVENT_FLAG_CLEAR)
+			event->set &= ~set;
 	}
 	else if (timeout == 0)
 	{
@@ -1227,7 +1237,8 @@ rt_mailbox_t rt_mb_create(const char *name, rt_size_t size, rt_uint8_t flag)
 
 	/* allocate object */
 	mb = (rt_mailbox_t)rt_object_allocate(RT_Object_Class_MailBox, name);
-	if (mb == RT_NULL) return mb;
+	if (mb == RT_NULL)
+		return mb;
 
 	/* set parent */
 	mb->parent.parent.flag = flag;
@@ -1381,7 +1392,8 @@ rt_err_t rt_mb_send_wait(rt_mailbox_t mb, rt_uint32_t value, rt_int32_t timeout)
 		{
 			tick_delta = rt_tick_get() - tick_delta;
 			timeout -= tick_delta;
-			if (timeout < 0) timeout = 0;
+			if (timeout < 0)
+				timeout = 0;
 		}
 	}
 
@@ -1389,7 +1401,8 @@ rt_err_t rt_mb_send_wait(rt_mailbox_t mb, rt_uint32_t value, rt_int32_t timeout)
 	mb->msg_pool[mb->in_offset] = value;
 	/* increase input offset */
 	++ mb->in_offset;
-	if (mb->in_offset >= mb->size) mb->in_offset = 0;
+	if (mb->in_offset >= mb->size)
+		mb->in_offset = 0;
 	/* increase message entry */
 	mb->entry ++;
 
@@ -1517,7 +1530,8 @@ rt_err_t rt_mb_recv(rt_mailbox_t mb, rt_uint32_t *value, rt_int32_t timeout)
 		{
 			tick_delta = rt_tick_get() - tick_delta;
 			timeout -= tick_delta;
-			if (timeout < 0) timeout = 0;
+			if (timeout < 0)
+				timeout = 0;
 		}
 	}
 
@@ -1526,7 +1540,8 @@ rt_err_t rt_mb_recv(rt_mailbox_t mb, rt_uint32_t *value, rt_int32_t timeout)
 
 	/* increase output offset */
 	++ mb->out_offset;
-	if (mb->out_offset >= mb->size) mb->out_offset = 0;
+	if (mb->out_offset >= mb->size)
+		mb->out_offset = 0;
 	/* decrease message entry */
 	mb->entry --;
 
@@ -1633,7 +1648,7 @@ rt_err_t rt_mq_init(rt_mq_t mq, const char *name, void *msgpool, rt_size_t msg_s
 	mq->msg_pool = msgpool;
 
 	/* get correct message size */
-	mq->msg_size = RT_ALIGN(msg_size,  RT_ALIGN_SIZE);
+	mq->msg_size = RT_ALIGN(msg_size, RT_ALIGN_SIZE);
 	mq->max_msgs = pool_size / (mq->msg_size + sizeof(struct rt_mq_message));
 
 	/* init message list */
@@ -1698,7 +1713,8 @@ rt_mq_t rt_mq_create(const char *name, rt_size_t msg_size, rt_size_t max_msgs, r
 
 	/* allocate object */
 	mq = (rt_mq_t)rt_object_allocate(RT_Object_Class_MessageQueue, name);
-	if (mq == RT_NULL) return mq;
+	if (mq == RT_NULL)
+		return mq;
 
 	/* set parent */
 	mq->parent.parent.flag = flag;
@@ -1789,8 +1805,13 @@ rt_err_t rt_mq_send(rt_mq_t mq, void *buffer, rt_size_t size)
 	register rt_ubase_t temp;
 	struct rt_mq_message *msg;
 
+	RT_ASSERT(mq != RT_NULL);
+	RT_ASSERT(buffer != RT_NULL);
+	RT_ASSERT(size != 0);
+
 	/* greater than one message size */
-	if (size > mq->msg_size) return -RT_ERROR;
+	if (size > mq->msg_size)
+		return -RT_ERROR;
 
 	RT_OBJECT_HOOK_CALL(rt_object_put_hook, (&(mq->parent.parent)));
 
@@ -1869,8 +1890,13 @@ rt_err_t rt_mq_urgent(rt_mq_t mq, void *buffer, rt_size_t size)
 	register rt_ubase_t temp;
 	struct rt_mq_message *msg;
 
+	RT_ASSERT(mq != RT_NULL);
+	RT_ASSERT(buffer != RT_NULL);
+	RT_ASSERT(size != 0);
+
 	/* greater than one message size */
-	if (size > mq->msg_size) return -RT_ERROR;
+	if (size > mq->msg_size)
+		return -RT_ERROR;
 
 	RT_OBJECT_HOOK_CALL(rt_object_put_hook, (&(mq->parent.parent)));
 
@@ -1904,7 +1930,8 @@ rt_err_t rt_mq_urgent(rt_mq_t mq, void *buffer, rt_size_t size)
 	mq->msg_queue_head = msg;
 
 	/* if there is no tail */
-	if (mq->msg_queue_tail == RT_NULL) mq->msg_queue_tail = msg;
+	if (mq->msg_queue_tail == RT_NULL)
+		mq->msg_queue_tail = msg;
 
 	/* increase message entry */
 	mq->entry ++;
@@ -1944,6 +1971,10 @@ rt_err_t rt_mq_recv(rt_mq_t mq, void *buffer, rt_size_t size, rt_int32_t timeout
 	register rt_ubase_t temp;
 	struct rt_mq_message *msg;
 	rt_uint32_t tick_delta;
+
+	RT_ASSERT(mq != RT_NULL);
+	RT_ASSERT(buffer != RT_NULL);
+	RT_ASSERT(size != 0);
 
 	/* initialize delta tick */
 	tick_delta = 0;
@@ -2016,7 +2047,8 @@ rt_err_t rt_mq_recv(rt_mq_t mq, void *buffer, rt_size_t size, rt_int32_t timeout
 		{
 			tick_delta = rt_tick_get() - tick_delta;
 			timeout -= tick_delta;
-			if (timeout < 0) timeout = 0;
+			if (timeout < 0)
+				timeout = 0;
 		}
 	}
 
@@ -2026,7 +2058,8 @@ rt_err_t rt_mq_recv(rt_mq_t mq, void *buffer, rt_size_t size, rt_int32_t timeout
 	/* move message queue head */
 	mq->msg_queue_head = msg->next;
 	/* reach queue tail, set to NULL */
-	if (mq->msg_queue_tail == msg) mq->msg_queue_tail = RT_NULL;
+	if (mq->msg_queue_tail == msg)
+		mq->msg_queue_tail = RT_NULL;
 
 	/* decrease message entry */
 	mq->entry --;
@@ -2083,7 +2116,8 @@ rt_err_t rt_mq_control(rt_mq_t mq, rt_uint8_t cmd, void *arg)
 			/* move message queue head */
 			mq->msg_queue_head = msg->next;
 			/* reach queue tail, set to NULL */
-			if (mq->msg_queue_tail == msg) mq->msg_queue_tail = RT_NULL;
+			if (mq->msg_queue_tail == msg)
+				mq->msg_queue_tail = RT_NULL;
 
 			/* put message to free list */
 			msg->next = (struct rt_mq_message *)mq->msg_queue_free;

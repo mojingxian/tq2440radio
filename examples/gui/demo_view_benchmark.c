@@ -103,7 +103,7 @@ rt_bool_t benchmark_event_handler(rtgui_widget_t* widget, rtgui_event_t *event)
 rtgui_view_t *demo_view_benchmark(rtgui_workbench_t* workbench)
 {
 	srand(100);
-	view = demo_view(workbench, "»æÍ¼²âÊÔ¿ªÊ¼");
+	view = demo_view(workbench, "»æÍ¼²âÊÔ");
 	rtgui_widget_set_event_handler(RTGUI_WIDGET(view), benchmark_event_handler);
 
 	return view;

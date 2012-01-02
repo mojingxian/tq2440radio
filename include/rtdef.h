@@ -33,8 +33,9 @@ extern "C" {
 /**
  * RT-Thread version information
  */
-#define RT_VERSION                      4L      /**< major version number */
+#define RT_VERSION                      1L      /**< major version number */
 #define RT_SUBVERSION                   0L      /**< minor version number */
+#define RT_REVISION                   	0L      /**< revise version number */
 
 /**
  * RT-Thread basic data type definitions
@@ -66,7 +67,7 @@ typedef rt_base_t                       rt_off_t;       /**< Type for offset    
 #define RT_FALSE                        0   /**< boolean fails */
 /*@}*/
 
-/* maximun value of base type */
+/* maximum value of base type */
 #define RT_UINT8_MAX                    0xff            /* Maxium number of UINT8   */
 #define RT_UINT16_MAX                   0xffff          /* Maxium number of UINT16  */
 #define RT_UINT32_MAX                   0xffffffff      /* Maxium number of UINT32  */
@@ -148,8 +149,8 @@ typedef rt_base_t                       rt_off_t;       /**< Type for offset    
 #define RT_ENOMEM                       5               /**< No memory               */
 #define RT_ENOSYS                       6               /**< No system               */
 #define RT_EBUSY                        7               /**< Busy                    */
+#define RT_EIO							8 				/**< IO error 				 */
 /*@}*/
-
 
 /**
  * @ingroup BasicDef
@@ -578,6 +579,9 @@ enum rt_device_class_type
 	RT_Device_Class_I2C,                            /**< I2C device                                 */
 	RT_Device_Class_USBDevice,                      /**< USB slave device                           */
 	RT_Device_Class_USBHost,                        /**< USB host bus                               */
+	RT_Device_Class_SPIBUS, 						/**< SPI bus device                             */
+	RT_Device_Class_SPIDevice,                      /**< SPI device                                 */
+	RT_Device_Class_SDIO, 							/**< SDIO bus device                            */
 	RT_Device_Class_Unknown                         /**< unknown device                             */
 };
 

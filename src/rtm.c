@@ -161,13 +161,13 @@ RTM_EXPORT(rt_snprintf);
  * misc interface symbol
  */
 extern int __aeabi_idiv; 
-//extern int __aeabi_ddiv; 
-//extern int __aeabi_dmul;
-//extern int __aeabi_i2d;
+extern int __aeabi_ddiv; 
+extern int __aeabi_dmul;
+extern int __aeabi_i2d;
 extern int __aeabi_uidiv;
 extern int __aeabi_uidivmod;
 extern int __aeabi_idivmod;
-//extern int __aeabi_d2iz;
+extern int __aeabi_d2iz;
 
 RTM_EXPORT(__aeabi_ddiv);
 RTM_EXPORT(__aeabi_dmul);
@@ -260,8 +260,8 @@ RTM_EXPORT(rtgui_button_create);
 RTM_EXPORT(rtgui_button_destroy);
 RTM_EXPORT(rtgui_button_set_onbutton);
 RTM_EXPORT(rtgui_container_add_child);
-RTM_EXPORT(rtgui_filelist_view_create);
-RTM_EXPORT(rtgui_filelist_view_get_fullpath);
+//RTM_EXPORT(rtgui_filelist_view_create);
+//RTM_EXPORT(rtgui_filelist_view_get_fullpath);
 RTM_EXPORT(rtgui_list_view_create);
 RTM_EXPORT(rtgui_list_view_destroy);
 RTM_EXPORT(rtgui_listctrl_set_onitem);

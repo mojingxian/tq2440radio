@@ -83,6 +83,7 @@ static void workbench_entry(void* parameter)
 	demo_view_listctrl(workbench);
 	demo_view_combobox(workbench);
 	demo_view_slider(workbench);
+	demo_view_notebook(workbench);
 	demo_view_mywidget(workbench);
 #if defined(RTGUI_USING_DFS_FILERW) || defined(RTGUI_USING_STDIO_FILERW)
 	demo_view_image(workbench);
@@ -117,7 +118,7 @@ void workbench_init()
 	{
 		rt_thread_t tid;
 
-		tid = rt_thread_create("works",
+		tid = rt_thread_create("wb",
 			workbench_entry, RT_NULL,
 			2048 * 2, 25, 10);
 
@@ -127,7 +128,7 @@ void workbench_init()
 	}
 }
 
-#ifdef RT_USING_RTGUI
+#ifdef RT_USING_FINSH
 #include <finsh.h>
 void workbench()
 {

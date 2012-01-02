@@ -11,12 +11,13 @@ BuildOptions = {}
 Projects = []
 Rtt_Root = ''
 Env = None
+fs_encoding = sys.getfilesystemencoding()
 
 def _get_filetype(fn):
     if fn.rfind('.c') != -1 or fn.rfind('.C') != -1 or fn.rfind('.cpp') != -1:
         return 1
 
-    # assimble file type
+    # assemble file type
     if fn.rfind('.s') != -1 or fn.rfind('.S') != -1:
         return 2
 
@@ -122,7 +123,7 @@ def IARAddGroup(parent, name, files, project_path):
         
         file = SubElement(group, 'file')
         file_name = SubElement(file, 'name')
-        file_name.text = '$PROJ_DIR$\\' + path
+        file_name.text = ('$PROJ_DIR$\\' + path).decode(fs_encoding)
 
 iar_workspace = '''<?xml version="1.0" encoding="iso-8859-1"?>
 
@@ -221,12 +222,12 @@ def MDK4AddGroup(ProjectFiles, parent, name, files, project_path):
         if ProjectFiles.count(name):
             name = basename + '_' + name
         ProjectFiles.append(name)
-        file_name.text = name
+        file_name.text = name.decode(fs_encoding)
         file_type = SubElement(file, 'FileType')
         file_type.text = '%d' % _get_filetype(name)
         file_path = SubElement(file, 'FilePath')
         
-        file_path.text = path
+        file_path.text = path.decode(fs_encoding)
 
 def MDK4Project(target, script):
     project_path = os.path.dirname(os.path.abspath(target))
@@ -278,6 +279,7 @@ def MDK4Project(target, script):
         paths.add(inc) #.replace('\\', '/')
     
     paths = [i for i in paths]
+    paths.sort()
     CPPPATH = string.join(paths, ';')
     
     definitions = [i for i in set(CPPDEFINES)]
@@ -475,17 +477,28 @@ def PrepareBuilding(env, root_directory, has_libcpu=False):
     PreProcessor.process_contents(contents)
     BuildOptions = PreProcessor.cpp_namespace
 
-    if (GetDepend('RT_USING_NEWLIB') == False and GetDepend('RT_USING_NOLIBC') == False) and rtconfig.PLATFORM == 'gcc':
-        AddDepend('RT_USING_MINILIBC')
-
     # add target option
     AddOption('--target',
                       dest='target',
                       type='string',
                       help='set target project: mdk')
 
-    if GetOption('target'):
+    #{target_name:(CROSS_TOOL, PLATFORM)}
+    tgt_dict = {'mdk':('keil', 'armcc'),
+                'mdk4':('keil', 'armcc'),
+                'iar':('iar', 'iar')}
+    tgt_name = GetOption('target')
+    if tgt_name:
         SetOption('no_exec', 1)
+        try:
+            rtconfig.CROSS_TOOL, rtconfig.PLATFORM = tgt_dict[tgt_name]
+        except KeyError:
+            print 'Unknow target: %s. Avaible targets: %s' % \
+                    (tgt_name, ', '.join(tgt_dict.keys()))
+            sys.exit(1)
+    elif (GetDepend('RT_USING_NEWLIB') == False and GetDepend('RT_USING_NOLIBC') == False) \
+	   and rtconfig.PLATFORM == 'gcc':
+        AddDepend('RT_USING_MINILIBC')
 
     #env['CCCOMSTR'] = "CC $TARGET"
     #env['ASCOMSTR'] = "AS $TARGET"
@@ -503,6 +516,21 @@ def PrepareBuilding(env, root_directory, has_libcpu=False):
     objs.append(SConscript('components/SConscript', variant_dir='build/components', duplicate=0))
 
     return objs
+
+def PrepareModuleBuilding(env, root_directory):
+    import SCons.cpp
+    import rtconfig
+
+    global BuildOptions
+    global Projects
+    global Env
+    global Rtt_Root
+
+    Env = env
+    Rtt_Root = root_directory
+
+    # add program path
+    env.PrependENVPath('PATH', rtconfig.EXEC_PATH)
 
 def GetDepend(depend):
     building = True
@@ -525,6 +553,34 @@ def GetDepend(depend):
 def AddDepend(option):
     BuildOptions[option] = 1
 
+def MergeGroup(src_group, group):
+    src_group['src'] = src_group['src'] + group['src']
+    if group.has_key('CCFLAGS'):
+        if src_group.has_key('CCFLAGS'):
+            src_group['CCFLAGS'] = src_group['CCFLAGS'] + group['CCFLAGS']
+        else:
+            src_group['CCFLAGS'] = group['CCFLAGS']
+    if group.has_key('CPPPATH'):
+        if src_group.has_key('CPPPATH'):
+            src_group['CPPPATH'] = src_group['CPPPATH'] + group['CPPPATH']
+        else:
+            src_group['CPPPATH'] = group['CPPPATH']
+    if group.has_key('CPPDEFINES'):
+        if src_group.has_key('CPPDEFINES'):
+            src_group['CPPDEFINES'] = src_group['CPPDEFINES'] + group['CPPDEFINES']
+        else:
+            src_group['CPPDEFINES'] = group['CPPDEFINES']
+    if group.has_key('LINKFLAGS'):
+        if src_group.has_key('LINKFLAGS'):
+            src_group['LINKFLAGS'] = src_group['LINKFLAGS'] + group['LINKFLAGS']
+        else:
+            src_group['LINKFLAGS'] = group['LINKFLAGS']
+    if group.has_key('LIBRARY'):
+        if src_group['LIBRARY'].has_key('LIBRARY'):
+            src_group['LIBRARY'] = src_group['LIBRARY'] + group['LIBRARY']
+        else:
+            src_group['LIBRARY'] = group['LIBRARY']
+
 def DefineGroup(name, src, depend, **parameters):
     global Env
     if not GetDepend(depend):
@@ -536,8 +592,6 @@ def DefineGroup(name, src, depend, **parameters):
         group['src'] = File(src)
     else:
         group['src'] = src
-
-    Projects.append(group)
 
     if group.has_key('CCFLAGS'):
         Env.Append(CCFLAGS = group['CCFLAGS'])
@@ -552,6 +606,16 @@ def DefineGroup(name, src, depend, **parameters):
 
     if group.has_key('LIBRARY'):
         objs = Env.Library(name, objs)
+
+    # merge group 
+    for g in Projects:
+        if g['name'] == name:
+            # merge to this group
+            MergeGroup(g, group)
+            return objs
+
+    # add a new group 
+    Projects.append(group)
 
     return objs
 
@@ -568,10 +632,6 @@ def EndBuilding(target):
 
     if GetOption('target') == 'mdk':
         template = os.path.isfile('template.Uv2')
-        if rtconfig.CROSS_TOOL != 'keil':
-            print 'Please use Keil MDK compiler in rtconfig.py'
-            return 
-
         if template:
             MDKProject('project.Uv2', Projects)
         else:
@@ -582,13 +642,18 @@ def EndBuilding(target):
                 print 'No template project file found.'
 
     if GetOption('target') == 'mdk4':
-        if rtconfig.CROSS_TOOL != 'keil':
-            print 'Please use Keil MDK compiler in rtconfig.py'
-            return 
         MDK4Project('project.uvproj', Projects)
-    
+
     if GetOption('target') == 'iar':
-        if rtconfig.CROSS_TOOL != 'iar':
-            print 'Please use IAR compiler in rtconfig.py'
-            return 
-        IARProject('project.ewp', Projects)
+        IARProject('project.ewp', Projects) 
+
+def SrcRemove(src, remove):
+	if type(src[0]) == type('str'):
+		for item in src:
+			if os.path.basename(item) in remove:
+				src.remove(item)
+		return
+
+	for item in src:
+		if os.path.basename(item.rstr()) in remove:
+			src.remove(item)

@@ -17,13 +17,12 @@
 
 #include <rthw.h>
 #include <rtthread.h>
-#include "serial.h"
 
 #include <s3c24x0.h>
 #ifdef RT_USING_FINSH
 #include <finsh.h>
 #endif
-#if 1
+
 extern void rt_hw_interrupt_init(void);
 extern void rt_hw_board_init(void);
 extern void rt_hw_rtc_init(void);
@@ -64,7 +63,6 @@ extern struct rt_device uart2_device;
 #ifdef RT_USING_FINSH
 extern void finsh_system_init(void);
 #endif
-#endif
 
 /**
  * This function will startup RT-Thread RTOS.
@@ -94,10 +92,8 @@ void rtthread_startup(void)
 	rt_system_timer_init();
 
 	/* init heap memory system */
-#if defined(__CC_ARM)
+#ifdef __CC_ARM
 	rt_system_heap_init((void*)&Image$$ER_ZI$$ZI$$Limit, (void*)0x33F00000);
-#elif defined(__ICCARM__)
-	rt_system_heap_init(__segment_end("HEAP"), (void*)0x33F00000);
 #else
 	rt_system_heap_init((void*)&__bss_end, (void*)0x33F00000);
 #endif
@@ -107,33 +103,33 @@ void rtthread_startup(void)
 	rt_system_module_init();
 #endif
 
-#ifdef RT_USING_DEVICE
-    /* register uart0 */
-    rt_hw_serial_register(&uart0_device, "uart0",
-        RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_INT_RX | RT_DEVICE_FLAG_STREAM,
-        &uart0);
-
-    /* register uart2, used for RTI debug */
-    rt_hw_serial_register(&uart2_device, "uart2",
-        RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_INT_RX | RT_DEVICE_FLAG_STREAM,
-        &uart2);
-
-#ifdef RT_USING_DFS
-    rt_hw_sdcard_init();
-#ifdef RT_USING_DFS_UFFS
-    rt_hw_nand_init();
-#endif
-#endif
-
-    /* rtc init */
-    rt_hw_rtc_init();
-
-    /*init all registed devices */
-    rt_device_init_all();
-#endif
-
 	/* init scheduler system */
 	rt_system_scheduler_init();
+
+#ifdef RT_USING_DEVICE
+	/* register uart0 */
+	rt_hw_serial_register(&uart0_device, "uart0",
+		RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_INT_RX | RT_DEVICE_FLAG_STREAM,
+		&uart0);
+
+	/* register uart2, used for RTI debug */
+	rt_hw_serial_register(&uart2_device, "uart2",
+		RT_DEVICE_FLAG_RDWR | RT_DEVICE_FLAG_INT_RX | RT_DEVICE_FLAG_STREAM,
+		&uart2);
+
+#ifdef RT_USING_DFS
+	rt_hw_sdcard_init();
+#ifdef RT_USING_DFS_UFFS
+	rt_hw_nand_init();
+#endif
+#endif
+
+	/* rtc init */
+	rt_hw_rtc_init();
+
+	/*init all registed devices */
+	rt_device_init_all();
+#endif
 
 	/* init application */
 	rt_application_init();
@@ -166,7 +162,6 @@ int main(void)
 	/* startup RT-Thread RTOS */
 	rtthread_startup();
 
-	/* never reach here */
 	return 0;
 }
 

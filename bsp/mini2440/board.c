@@ -20,7 +20,7 @@
 
 #include "board.h"
 #include "led.h"
-#include "LCD_TFT.h"
+
 /**
  * @addtogroup mini2440
  */
@@ -44,16 +44,6 @@ struct serial_device uart0 =
 	RT_NULL
 };
 struct rt_device uart0_device;
-
-#define UART1   ((struct uartport *)&U1BASE)
-struct serial_int_rx uart1_int_rx;
-struct serial_device uart1 =
-{
-    UART1,
-    &uart1_int_rx,
-    RT_NULL
-};
-struct rt_device uart1_device;
 
 #define UART2	((struct uartport *)&U2BASE)
 struct serial_int_rx uart2_int_rx;
@@ -110,9 +100,9 @@ static void rt_hw_uart_init(void)
 {
 	int i;
 	/* UART0 port configure */
-	GPHCON |= 0x00FAAA;//0xAA;
+	GPHCON |= 0xAA;
 	/* PULLUP is disable */
-	GPHUP |= 0x07FF;//0xF;
+	GPHUP |= 0xF;
 
 	/* FIFO enable, Tx/Rx FIFO clear */
 	uart0.uart_device->ufcon = 0x0;
@@ -126,7 +116,7 @@ static void rt_hw_uart_init(void)
 	 */
 	uart0.uart_device->ucon = 0x245;
 	/* Set uart0 bps */
-	uart0.uart_device->ubrd = (rt_int32_t)(PCLK / (BPS * 16.0) + 0.5) - 1;
+	uart0.uart_device->ubrd = (rt_int32_t)(PCLK / (BPS * 16)) - 1;
 	/* output PCLK to UART0/1, PWMTIMER */
 	CLKCON |= 0x0D00;
 
@@ -142,7 +132,7 @@ static void rt_hw_uart_init(void)
 	 */
 	uart2.uart_device->ucon = 0x245;
 	/* Set uart0 bps */
-	uart2.uart_device->ubrd = (rt_int32_t)(PCLK / (BPS * 16.0) + 0.5) - 1;
+	uart2.uart_device->ubrd = (rt_int32_t)(PCLK / (BPS * 16)) - 1;
 	
 	for (i = 0; i < 100; i++);
 

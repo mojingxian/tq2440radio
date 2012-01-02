@@ -23,7 +23,7 @@
 #include "lcd.h"
 #include "led.h"
 #include "dm9000.h"
-#include "LCD_TFT.h"
+
 #ifdef RT_USING_DFS
 /* dfs init */
 #include <dfs_init.h>
@@ -140,15 +140,15 @@ void rt_init_thread_entry(void* parameter)
 #ifdef RT_USING_RTGUI
 	{
 		rt_device_t lcd;
-
+		
 		/* init lcd */
 		rt_hw_lcd_init();
 			
 		/* init touch panel */
-		rtgui_touch_hw_init();
+		rtgui_touch_hw_init();	
 
 		/* init keypad */
-		//rt_hw_key_init();
+		rt_hw_key_init();
 		
 		/* re-init device driver */
 		rt_device_init_all();
@@ -215,23 +215,14 @@ void rt_led_thread_entry(void* parameter)
 	while(1)
 	{
 		/* light on leds for one second */
-		rt_hw_led_on(LED1);
-		rt_hw_led_off(LED2|LED3|LED4);
-		rt_thread_delay(200);
+		rt_hw_led_on(LED2|LED3);
+		rt_hw_led_off(LED1|LED4);
+		rt_thread_delay(100);
 
-        rt_hw_led_on(LED1 | LED2);
-        rt_hw_led_off(LED3|LED4);
-        rt_thread_delay(200);
-
-        rt_hw_led_on(LED1|LED2|LED3);
-        rt_hw_led_off(LED4);
-        rt_thread_delay(200);
-
-        rt_hw_led_on(LED1|LED2|LED3|LED4);
-        rt_thread_delay(200);
-
-        rt_hw_led_off(LED1|LED2|LED3|LED4);
-        rt_thread_delay(200);
+		/* light off leds for one second */
+		rt_hw_led_off(LED2|LED3);
+		rt_hw_led_on(LED1|LED4);
+		rt_thread_delay(100);
 	}
 }
 
