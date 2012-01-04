@@ -10,12 +10,6 @@
 #ifndef _MYGUI_H
 #define _MYGUI_H
 
-#ifndef MYGUI_C_
-#define MYGUI_EXT extern
-#else
-#define MYGUI_EXT
-#endif
-
 // Includes
 // Export typedefs
 // Export defines
@@ -23,6 +17,7 @@
 // Export macros
 // Export variables
 // Export functions
+void mygui_startup(void);
 
 #endif /* _MYGUI_H */
 
