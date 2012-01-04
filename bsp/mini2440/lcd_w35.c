@@ -1,5 +1,5 @@
 /*
- * COPYRIGHT (C) 2011 By ShenZhen Artel Technology CO., LTD.
+ * COPYRIGHT (C) 2011 By AreMok.
  * All Rights Reserved.
  *
  * 东华屏(320X240)LCD屏驱动，显示模式为24位色(For TQ2440)。
